@@ -26,22 +26,24 @@ class GUIInterface(QWidget):
 
     def __init__(self):
         super().__init__()
-        if not os.path.isfile('locationPaths.json'):
-            self.initWizardUI()
+        if os.path.isfile('locationPaths.json'):
+            pass
+        else:
+            self.init_wizard_UI()
 
-    def clearLayout(self, layout=None):
+    def clear_layout(self, layout=None):
         layout = self.layout() if layout == None else layout
         for i in reversed(range(layout.count())):
             layoutItem = layout.itemAt(i)
             if issubclass(layoutItem.__class__, QLayout):
-                self.clearLayout(layout=layoutItem)
+                self.clear_layout(layout=layoutItem)
                 continue
             widgetToRemove = layoutItem.widget()
             layout.removeWidget(widgetToRemove)
             #remove widget from the GUI
             widgetToRemove.setParent(None)
 
-    def initWizardUI(self):
+    def init_wizard_UI(self):
 
         self.setGeometry(100, 100, 500, 400)
         self.setWindowTitle('MonogramPyAHKAutomator')
@@ -71,4 +73,4 @@ class GUIInterface(QWidget):
         self.show()
 
     def next_screen(self):
-        self.clearLayout()
+        self.clear_layout()
