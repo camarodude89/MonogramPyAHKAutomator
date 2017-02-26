@@ -47,23 +47,23 @@ class GUIInterface(QWidget):
         self.setWindowTitle('MonogramPyAHKAutomator')
         self.setWindowIcon(QIcon('web.png'))
 
-        self.title = QLabel()
-        self.title.setText(self.wizInitialTxt)
-        self.title.setAlignment(Qt.AlignTop)
-        self.title.setWordWrap(True)
+        self.intro = QLabel()
+        self.intro.setText(self.wizInitialTxt)
+        self.intro.setAlignment(Qt.AlignTop)
+        self.intro.setWordWrap(True)
 
         self.mainLayout = QVBoxLayout()
-        self.mainLayout.addWidget(self.title)
+        self.mainLayout.addWidget(self.intro)
 
         self.buttonLayout = QHBoxLayout()
 
-        self.nextBtn = QPushButton("Continue", self)
-        self.nextBtn.clicked.connect(self.next_screen)
-        self.exitBtn = QPushButton("Exit", self)
-        self.exitBtn.clicked.connect(self.close)
+        nextBtn = QPushButton("Continue", self)
+        nextBtn.clicked.connect(self.next_screen)
+        exitBtn = QPushButton("Exit", self)
+        exitBtn.clicked.connect(self.close)
 
-        self.buttonLayout.addWidget(self.nextBtn)
-        self.buttonLayout.addWidget(self.exitBtn)
+        self.buttonLayout.addWidget(nextBtn)
+        self.buttonLayout.addWidget(exitBtn)
         self.mainLayout.addLayout(self.buttonLayout)
 
         self.setLayout(self.mainLayout)
