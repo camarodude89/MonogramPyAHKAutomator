@@ -30,6 +30,7 @@ class GUIInterface(QWidget):
             pass
         else:
             self.init_wizard_UI()
+            self.currentScreen = ("Wizard", 1)
 
     def clear_layout(self, layout=None):
         layout = self.layout() if layout == None else layout
@@ -54,21 +55,21 @@ class GUIInterface(QWidget):
         self.intro.setAlignment(Qt.AlignTop)
         self.intro.setWordWrap(True)
 
-        self.mainLayout = QVBoxLayout()
-        self.mainLayout.addWidget(self.intro)
+        self.wizLayout = QVBoxLayout()
+        self.wizLayout.addWidget(self.intro)
 
-        self.buttonLayout = QHBoxLayout()
+        self.wizBtnLayout = QHBoxLayout()
 
         nextBtn = QPushButton("Continue", self)
         nextBtn.clicked.connect(self.next_screen)
         exitBtn = QPushButton("Exit", self)
         exitBtn.clicked.connect(self.close)
 
-        self.buttonLayout.addWidget(nextBtn)
-        self.buttonLayout.addWidget(exitBtn)
-        self.mainLayout.addLayout(self.buttonLayout)
+        self.wizBtnLayout.addWidget(nextBtn)
+        self.wizBtnLayout.addWidget(exitBtn)
+        self.wizLayout.addLayout(self.wizBtnLayout)
 
-        self.setLayout(self.mainLayout)
+        self.setLayout(self.wizLayout)
 
         self.show()
 
