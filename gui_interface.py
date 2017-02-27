@@ -30,7 +30,14 @@ class GUIInterface(QWidget):
         self.setGeometry(100, 100, 500, 400)
         self.setWindowTitle('MonogramPyAHKAutomator')
         self.setWindowIcon(QIcon('web.png'))
-        
+
+        self.guiSwitcher = {
+            "Wizard": {
+                0: self.init_wizard_UI,
+                1: self.location_chooser
+            }
+        }
+
         if os.path.isfile('locationPaths.json'):
             pass
         else:
@@ -82,14 +89,6 @@ class GUIInterface(QWidget):
 
         self.clear_layout()
 
-        #logic for determining next page in GUI
-        #The appropriate function is called to construct the next page
-        #guiSwitcher = {
-        #    "Wizard": {
-        #        0: self.init_wizard_UI,
-        #        1: location_chooser
-        #    }
-        #}
-
+        #currentScreen[1] += 1
         #func = guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
         #return func()
