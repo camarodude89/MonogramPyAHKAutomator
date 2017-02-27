@@ -25,14 +25,20 @@ class GUIInterface(QWidget):
     Communicator.</p></span></div>"""
 
     def __init__(self):
+
         super().__init__()
+        self.setGeometry(100, 100, 500, 400)
+        self.setWindowTitle('MonogramPyAHKAutomator')
+        self.setWindowIcon(QIcon('web.png'))
+        
         if os.path.isfile('locationPaths.json'):
             pass
         else:
             self.init_wizard_UI()
-            self.currentScreen = ("Wizard", 1)
+            self.currentScreen = ("Wizard", 0)
 
     def clear_layout(self, layout=None):
+
         layout = self.layout() if layout == None else layout
         for i in reversed(range(layout.count())):
             layoutItem = layout.itemAt(i)
@@ -46,17 +52,13 @@ class GUIInterface(QWidget):
 
     def init_wizard_UI(self):
 
-        self.setGeometry(100, 100, 500, 400)
-        self.setWindowTitle('MonogramPyAHKAutomator')
-        self.setWindowIcon(QIcon('web.png'))
-
-        self.intro = QLabel()
-        self.intro.setText(self.wizInitialTxt)
-        self.intro.setAlignment(Qt.AlignTop)
-        self.intro.setWordWrap(True)
+        intro = QLabel()
+        intro.setText(self.wizInitialTxt)
+        intro.setAlignment(Qt.AlignTop)
+        intro.setWordWrap(True)
 
         self.wizLayout = QVBoxLayout()
-        self.wizLayout.addWidget(self.intro)
+        self.wizLayout.addWidget(intro)
 
         self.wizBtnLayout = QHBoxLayout()
 
@@ -73,5 +75,21 @@ class GUIInterface(QWidget):
 
         self.show()
 
+    def location_chooser(self):
+        pass
+
     def next_screen(self):
+
         self.clear_layout()
+
+        #logic for determining next page in GUI
+        #The appropriate function is called to construct the next page
+        #guiSwitcher = {
+        #    "Wizard": {
+        #        0: self.init_wizard_UI,
+        #        1: location_chooser
+        #    }
+        #}
+
+        #func = guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
+        #return func()
