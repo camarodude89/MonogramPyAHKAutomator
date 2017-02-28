@@ -30,8 +30,8 @@ class GUIInterface(QWidget):
     which you will be installing software. (Ex: Memphis for MEM-APP,
     Martinsville for MMSMV-SVR1, etc.)</p>"""
 
-    locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
-    Default Location:"""
+    locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;
+    font-size:10pt;\">Default Location:</div>"""
 
 
     def __init__(self):
