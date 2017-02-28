@@ -1,14 +1,14 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QMainWindow, QVBoxLayout, QHBoxLayout, QLabel,
-QWidget, QPushButton, QLayout)
+QWidget, QPushButton, QLayout, QLineEdit)
 import os
 
 class GUIInterface(QWidget):
 
-    wizInitialTxt = """<div align=\"center\">
-    <h1 style=\"font-family:Segoe UI;\">MonogramPyAHKAutomator Setup Wizard</h1>
-    <span style=\"font-family:Segoe UI; font-size:10pt;\" align=\"left\">
+    wizInitialTxt = """<div style=\"font-family:Segoe UI;\">
+    <h1 align=\"center\">MonogramPyAHKAutomator Setup Wizard</h1>
+    <span style=\"font-size:10pt;\" align=\"left\">
     <p>Before using the MonogramPyAHKAutomator
     (MPAHKA), you must first setup the default file locations for each software
     to be automated. This will tell MPAHKA where to look for the setup
@@ -23,6 +23,16 @@ class GUIInterface(QWidget):
 
     <p>The currently supported software is Adobe Reader, CutePDF and ShoreTel
     Communicator.</p></span></div>"""
+
+    locChooseTxt = """<div align=\"left\">
+    <h3 style=\"font-family:Segoe UI;\">MonogramPyAHKAutomator Setup Wizard</h3>
+    <p style=\"font-size:10pt;\">Enter the physical location of the servers from
+    which you will be installing software. (Ex: Memphis for MEM-APP,
+    Martinsville for MMSMV-SVR1, etc.)</p>"""
+
+    locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    Default Location:"""
+
 
     def __init__(self):
 
@@ -41,8 +51,10 @@ class GUIInterface(QWidget):
         if os.path.isfile('locationPaths.json'):
             pass
         else:
+            self.currentScreen = ["Wizard", 0]
+            self.wizLayout = QVBoxLayout()
+            self.wizBtnLayout = QHBoxLayout()
             self.init_wizard_UI()
-            self.currentScreen = ("Wizard", 0)
 
     def clear_layout(self, layout=None):
 
@@ -51,6 +63,8 @@ class GUIInterface(QWidget):
             layoutItem = layout.itemAt(i)
             if issubclass(layoutItem.__class__, QLayout):
                 self.clear_layout(layout=layoutItem)
+                #removes the sublayout from the main layout
+                self.layout().removeItem(layoutItem)
                 continue
             widgetToRemove = layoutItem.widget()
             layout.removeWidget(widgetToRemove)
@@ -64,17 +78,14 @@ class GUIInterface(QWidget):
         intro.setAlignment(Qt.AlignTop)
         intro.setWordWrap(True)
 
-        self.wizLayout = QVBoxLayout()
         self.wizLayout.addWidget(intro)
 
-        self.wizBtnLayout = QHBoxLayout()
-
-        nextBtn = QPushButton("Continue", self)
-        nextBtn.clicked.connect(self.next_screen)
+        continueBtn = QPushButton("Continue", self)
+        continueBtn.clicked.connect(self.next_screen)
         exitBtn = QPushButton("Exit", self)
         exitBtn.clicked.connect(self.close)
 
-        self.wizBtnLayout.addWidget(nextBtn)
+        self.wizBtnLayout.addWidget(continueBtn)
         self.wizBtnLayout.addWidget(exitBtn)
         self.wizLayout.addLayout(self.wizBtnLayout)
 
@@ -83,12 +94,51 @@ class GUIInterface(QWidget):
         self.show()
 
     def location_chooser(self):
-        pass
+
+        desc = QLabel()
+        desc.setText(self.locChooseTxt)
+        desc.setAlignment(Qt.AlignTop)
+        desc.setWordWrap(True)
+
+        locTxtAndLblBoxLayout = QHBoxLayout()
+
+        locTxtBoxLbl = QLabel()
+        locTxtBoxLbl.setText(self.locTxtBoxLblTxt)
+        locTxtBoxLbl.setAlignment(Qt.AlignTop)
+
+        self.locTxtBox = QLineEdit()
+
+        locTxtAndLblBoxLayout.addWidget(locTxtBoxLbl)
+        locTxtAndLblBoxLayout.addWidget(self.locTxtBox)
+
+        backBtn = QPushButton("< Back", self)
+        backBtn.clicked.connect(self.prev_screen)
+        nextBtn = QPushButton("Next >", self)
+        nextBtn.clicked.connect(self.next_screen)
+
+        self.wizBtnLayout.addWidget(backBtn)
+        self.wizBtnLayout.addWidget(nextBtn)
+
+        self.wizLayout.addWidget(desc)
+        self.wizLayout.addLayout(locTxtAndLblBoxLayout)
+        self.wizLayout.addLayout(self.wizBtnLayout)
+
+        self.setLayout(self.wizLayout)
+
+        self.show()
 
     def next_screen(self):
 
         self.clear_layout()
 
-        #currentScreen[1] += 1
-        #func = guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
-        #return func()
+        self.currentScreen[1] += 1
+        func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
+        return func()
+
+    def prev_screen(self):
+
+        self.clear_layout()
+
+        self.currentScreen[1] -= 1
+        func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
+        return func()
