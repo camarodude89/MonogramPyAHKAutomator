@@ -81,8 +81,10 @@ class GUIInterface(QWidget):
         self.wizLayout.addWidget(intro)
 
         continueBtn = QPushButton("Continue", self)
+        GUIInterface.font_size(continueBtn)
         continueBtn.clicked.connect(self.next_screen)
         exitBtn = QPushButton("Exit", self)
+        GUIInterface.font_size(exitBtn)
         exitBtn.clicked.connect(self.close)
 
         self.wizBtnLayout.addWidget(continueBtn)
@@ -107,17 +109,17 @@ class GUIInterface(QWidget):
         locTxtBoxLbl.setAlignment(Qt.AlignCenter)
 
         self.locTxtBox = QLineEdit()
-        font = self.locTxtBox.font()
-        font.setPointSize(10)
-        self.locTxtBox.setFont(font)
+        GUIInterface.font_size(self.locTxtBox)
 
         locTxtAndLblBoxLayout.addWidget(locTxtBoxLbl)
         locTxtAndLblBoxLayout.addWidget(self.locTxtBox)
         locTxtAndLblBoxLayout.setAlignment(Qt.AlignTop)
 
         backBtn = QPushButton("< Back", self)
+        GUIInterface.font_size(backBtn)
         backBtn.clicked.connect(self.prev_screen)
         nextBtn = QPushButton("Next >", self)
+        GUIInterface.font_size(nextBtn)
         nextBtn.clicked.connect(self.next_screen)
 
         self.wizBtnLayout.addWidget(backBtn)
@@ -146,3 +148,10 @@ class GUIInterface(QWidget):
         self.currentScreen[1] -= 1
         func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
         return func()
+
+    @staticmethod
+    def font_size(curWidget, size=10):
+
+        font = curWidget.font()
+        font.setPointSize(size)
+        curWidget.setFont(font)
