@@ -104,12 +104,16 @@ class GUIInterface(QWidget):
 
         locTxtBoxLbl = QLabel()
         locTxtBoxLbl.setText(self.locTxtBoxLblTxt)
-        locTxtBoxLbl.setAlignment(Qt.AlignTop)
+        locTxtBoxLbl.setAlignment(Qt.AlignCenter)
 
         self.locTxtBox = QLineEdit()
+        font = self.locTxtBox.font()
+        font.setPointSize(10)
+        self.locTxtBox.setFont(font)
 
         locTxtAndLblBoxLayout.addWidget(locTxtBoxLbl)
         locTxtAndLblBoxLayout.addWidget(self.locTxtBox)
+        locTxtAndLblBoxLayout.setAlignment(Qt.AlignTop)
 
         backBtn = QPushButton("< Back", self)
         backBtn.clicked.connect(self.prev_screen)
