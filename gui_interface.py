@@ -55,12 +55,15 @@ class GUIInterface(QWidget):
 
         self.guiSwitcher = {
             "Wizard": {
-                0: self.init_wizard_UI,
-                1: self.location_chooser_UI,
-                2: self.file_chooser_UI,
-                3: self.file_chooser_UI,
-                4: self.file_chooser_UI,
-                5: self.setup_complete_UI
+                0: self.init_wizard_ui,
+                1: self.location_chooser_ui,
+                2: self.file_chooser_ui,
+                3: self.file_chooser_ui,
+                4: self.file_chooser_ui,
+                5: self.setup_complete_ui
+            }
+            "Automator": {
+                0: self.init_automator_ui
             }
         }
 
@@ -70,13 +73,14 @@ class GUIInterface(QWidget):
         self.softwarePathList = [""] * 3
 
         if os.path.isfile('locationPaths.json'):
-            pass
+            self.currentScreen = ["Automator", 0]
+            self.init_automator_ui()
         else:
             self.currentScreen = ["Wizard", 0]
             self.firstRun = True
             self.wizLayout = QVBoxLayout()
             self.wizBtnLayout = QHBoxLayout()
-            self.init_wizard_UI()
+            self.init_wizard_ui()
 
     def clear_layout(self, layout=None):
 
@@ -93,7 +97,7 @@ class GUIInterface(QWidget):
             #remove widget from the GUI
             widgetToRemove.setParent(None)
 
-    def init_wizard_UI(self):
+    def init_wizard_ui(self):
 
         if not self.firstRun:
             self.clear_layout()
@@ -122,7 +126,7 @@ class GUIInterface(QWidget):
 
         self.firstRun = False
 
-    def location_chooser_UI(self):
+    def location_chooser_ui(self):
 
         self.clear_layout()
 
@@ -162,7 +166,7 @@ class GUIInterface(QWidget):
 
         self.show()
 
-    def file_chooser_UI(self):
+    def file_chooser_ui(self):
 
         self.text_scrape()
         self.clear_layout()
@@ -205,7 +209,7 @@ class GUIInterface(QWidget):
 
         self.show()
 
-    def setup_complete_UI(self):
+    def setup_complete_ui(self):
 
         self.text_scrape()
         JSONHandler.jsonify(self.defaultLocation,
@@ -228,6 +232,9 @@ class GUIInterface(QWidget):
         self.setLayout(self.wizLayout)
 
         self.show()
+
+    def init_automator_ui(self):
+        pass
 
     def next_screen(self):
 
