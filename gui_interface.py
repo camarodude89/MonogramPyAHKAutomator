@@ -33,6 +33,12 @@ class GUIInterface(QWidget):
     locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;
     font-size:10pt;\">Default Location:</div>"""
 
+    fileChooserTxt1 = """<div align=\"left\">
+    <h3 style=\"font-family:Segoe UI;\">MonogramPyAHKAutomator Setup Wizard</h3>
+    <p style=\"font-size:10pt;\">Enter the path to the setup file for <b>"""
+
+    fileChooserTxt2 = "</b>.</div>"
+
 
     def __init__(self):
 
@@ -44,14 +50,21 @@ class GUIInterface(QWidget):
         self.guiSwitcher = {
             "Wizard": {
                 0: self.init_wizard_UI,
-                1: self.location_chooser
+                1: self.location_chooser_UI,
+                2: self.file_chooser_UI,
+                3: self.file_chooser_UI,
+                4: self.file_chooser_UI
             }
         }
+
+        self.softwareList = ["Adobe Reader", "CutePDF",
+        "ShoreTel Communicator"]
 
         if os.path.isfile('locationPaths.json'):
             pass
         else:
             self.currentScreen = ["Wizard", 0]
+            self.firstRun = True
             self.wizLayout = QVBoxLayout()
             self.wizBtnLayout = QHBoxLayout()
             self.init_wizard_UI()
@@ -72,6 +85,9 @@ class GUIInterface(QWidget):
             widgetToRemove.setParent(None)
 
     def init_wizard_UI(self):
+
+        if not self.firstRun:
+            self.clear_layout()
 
         intro = QLabel()
         intro.setText(self.wizInitialTxt)
@@ -95,7 +111,11 @@ class GUIInterface(QWidget):
 
         self.show()
 
-    def location_chooser(self):
+        self.firstRun = False
+
+    def location_chooser_UI(self):
+
+        self.clear_layout()
 
         desc = QLabel()
         desc.setText(self.locChooseTxt)
@@ -133,9 +153,51 @@ class GUIInterface(QWidget):
 
         self.show()
 
-    def next_screen(self):
+    def file_chooser_UI(self):
+
+        self.default_location = self.locTxtBox.text()
 
         self.clear_layout()
+
+        desc = QLabel()
+        desc.setText(self.fileChooserTxt1 +
+                    self.softwareList[self.currentScreen[1] - 2] +
+                    self.fileChooserTxt2)
+        desc.setAlignment(Qt.AlignTop)
+        desc.setWordWrap(True)
+
+        fileChooserHBoxLayout = QHBoxLayout()
+
+        fileLocTxtBox = QLineEdit()
+        GUIInterface.font_size(fileLocTxtBox)
+
+        browseBtn = QPushButton("Browse...", self)
+        GUIInterface.font_size(browseBtn)
+        browseBtn.clicked.connect(self.choose_file)
+
+        fileChooserHBoxLayout.addWidget(fileLocTxtBox)
+        fileChooserHBoxLayout.addWidget(browseBtn)
+        fileChooserHBoxLayout.setAlignment(Qt.AlignTop)
+
+        backBtn = QPushButton("< Back", self)
+        GUIInterface.font_size(backBtn)
+        backBtn.clicked.connect(self.prev_screen)
+        nextBtn = QPushButton("Next >", self)
+        GUIInterface.font_size(nextBtn)
+        nextBtn.clicked.connect(self.next_screen)
+
+        self.wizBtnLayout.addWidget(backBtn)
+        self.wizBtnLayout.addWidget(nextBtn)
+
+        self.wizLayout.addWidget(desc)
+        self.wizLayout.addLayout(fileChooserHBoxLayout)
+        self.wizLayout.addLayout(self.wizBtnLayout)
+
+        self.setLayout(self.wizLayout)
+
+        self.show()
+
+    def next_screen(self):
 
         self.currentScreen[1] += 1
         func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
@@ -143,11 +205,12 @@ class GUIInterface(QWidget):
 
     def prev_screen(self):
 
-        self.clear_layout()
-
         self.currentScreen[1] -= 1
         func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
         return func()
+
+    def choose_file(self):
+        pass
 
     @staticmethod
     def font_size(curWidget, size=10):
