@@ -61,7 +61,7 @@ class GUIInterface(QWidget):
                 3: self.file_chooser_ui,
                 4: self.file_chooser_ui,
                 5: self.setup_complete_ui
-            }
+            },
             "Automator": {
                 0: self.init_automator_ui
             }
@@ -234,7 +234,19 @@ class GUIInterface(QWidget):
         self.show()
 
     def init_automator_ui(self):
-        pass
+
+        stuff = QLabel()
+        stuff.setText("Things and stuff go here!!!")
+        stuff.setAlignment(Qt.AlignTop)
+        stuff.setWordWrap(True)
+
+        self.autoLayout = QVBoxLayout()
+
+        self.autoLayout.addWidget(stuff)
+
+        self.setLayout(self.autoLayout)
+
+        self.show()
 
     def next_screen(self):
 
@@ -273,9 +285,6 @@ class GUIInterface(QWidget):
         filePath = QFileDialog.getOpenFileName(self, "Choose Install File",
                    "", "All Files (*);;Exe Files (*.exe)", options=options)
         self.fileLocTxtBox.setText(filePath[0])
-
-    def generate_JSON(self):
-        pass
 
     @staticmethod
     def font_size(curWidget, size=10):
