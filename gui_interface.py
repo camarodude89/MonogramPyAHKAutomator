@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QMainWindow, QVBoxLayout, QHBoxLayout, QLabel,
-QWidget, QPushButton, QLayout, QLineEdit)
+QWidget, QPushButton, QLayout, QLineEdit, QFileDialog)
 import os
 
 class GUIInterface(QWidget):
@@ -59,6 +59,8 @@ class GUIInterface(QWidget):
 
         self.softwareList = ["Adobe Reader", "CutePDF",
         "ShoreTel Communicator"]
+
+        self.softwarePathList = [""] * 3
 
         if os.path.isfile('locationPaths.json'):
             pass
@@ -155,8 +157,7 @@ class GUIInterface(QWidget):
 
     def file_chooser_UI(self):
 
-        self.default_location = self.locTxtBox.text()
-
+        self.text_scrape()
         self.clear_layout()
 
         desc = QLabel()
@@ -168,14 +169,14 @@ class GUIInterface(QWidget):
 
         fileChooserHBoxLayout = QHBoxLayout()
 
-        fileLocTxtBox = QLineEdit()
-        GUIInterface.font_size(fileLocTxtBox)
+        self.fileLocTxtBox = QLineEdit()
+        GUIInterface.font_size(self.fileLocTxtBox)
 
         browseBtn = QPushButton("Browse...", self)
         GUIInterface.font_size(browseBtn)
         browseBtn.clicked.connect(self.choose_file)
 
-        fileChooserHBoxLayout.addWidget(fileLocTxtBox)
+        fileChooserHBoxLayout.addWidget(self.fileLocTxtBox)
         fileChooserHBoxLayout.addWidget(browseBtn)
         fileChooserHBoxLayout.setAlignment(Qt.AlignTop)
 
@@ -209,8 +210,31 @@ class GUIInterface(QWidget):
         func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
         return func()
 
+    def text_scrape(self):
+
+        curScrInd = self.currentScreen[1]
+
+        if curScrInd == 2:
+            self.default_location = self.locTxtBox.text()
+            print("Default location set to {}".format(self.default_location))
+        elif curScrInd == 3:
+            self.softwarePathList[0] = self.fileLocTxtBox.text()
+            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
+                 self.softwarePathList[curScrInd - 3]))
+        elif curScrInd == 4:
+            self.softwarePathList[1] = self.fileLocTxtBox.text()
+            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
+                 self.softwarePathList[curScrInd - 3]))
+        elif curScrInd == 5:
+            self.softwarePathList[2] = self.fileLocTxtBox.text()
+            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
+                 self.softwarePathList[curScrInd - 3]))
+
     def choose_file(self):
-        pass
+        options = QFileDialog.Options()
+        filePath = QFileDialog.getOpenFileName(self, "Choose Install File",
+                   "", "All Files (*);;Exe Files (*.exe)", options=options)
+        self.fileLocTxtBox.setText(filePath[0])
 
     @staticmethod
     def font_size(curWidget, size=10):
