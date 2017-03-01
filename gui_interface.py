@@ -24,8 +24,8 @@ class GUIInterface(QWidget):
     <p>The currently supported software is Adobe Reader, CutePDF and ShoreTel
     Communicator.</p></span></div>"""
 
-    locChooseTxt = """<div align=\"left\">
-    <h3 style=\"font-family:Segoe UI;\">MonogramPyAHKAutomator Setup Wizard</h3>
+    locChooseTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    <h3>MonogramPyAHKAutomator Setup Wizard</h3>
     <p style=\"font-size:10pt;\">Enter the physical location of the servers from
     which you will be installing software. (Ex: Memphis for MEM-APP,
     Martinsville for MMSMV-SVR1, etc.)</p>"""
@@ -33,11 +33,16 @@ class GUIInterface(QWidget):
     locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;
     font-size:10pt;\">Default Location:</div>"""
 
-    fileChooserTxt1 = """<div align=\"left\">
-    <h3 style=\"font-family:Segoe UI;\">MonogramPyAHKAutomator Setup Wizard</h3>
+    fileChooserTxt1 = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    <h3>MonogramPyAHKAutomator Setup Wizard</h3>
     <p style=\"font-size:10pt;\">Enter the path to the setup file for <b>"""
 
     fileChooserTxt2 = "</b>.</div>"
+
+    setupCompleteTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    <h3>MonogramPyAHKAutomator Setup Wizard</h3>
+    <p style=\"font-size:10pt;\">Setup has been completed. Select the Finish
+    button to exit.</p></div>"""
 
 
     def __init__(self):
@@ -53,7 +58,8 @@ class GUIInterface(QWidget):
                 1: self.location_chooser_UI,
                 2: self.file_chooser_UI,
                 3: self.file_chooser_UI,
-                4: self.file_chooser_UI
+                4: self.file_chooser_UI,
+                5: self.setup_complete_UI
             }
         }
 
@@ -193,6 +199,28 @@ class GUIInterface(QWidget):
         self.wizLayout.addWidget(desc)
         self.wizLayout.addLayout(fileChooserHBoxLayout)
         self.wizLayout.addLayout(self.wizBtnLayout)
+
+        self.setLayout(self.wizLayout)
+
+        self.show()
+
+    def setup_complete_UI(self):
+
+        self.text_scrape()
+        self.clear_layout()
+
+        desc = QLabel()
+        desc.setText(self.setupCompleteTxt)
+        desc.setAlignment(Qt.AlignTop)
+        desc.setWordWrap(True)
+
+        finishBtn = QPushButton("Finish", self)
+        GUIInterface.font_size(finishBtn)
+        #finishBtn.setFixedWidth(100)
+        finishBtn.clicked.connect(self.close)
+
+        self.wizLayout.addWidget(desc)
+        self.wizLayout.addWidget(finishBtn)
 
         self.setLayout(self.wizLayout)
 

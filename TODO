@@ -1,3 +1,2 @@
--Save paths for install executables from the QLineEdits
 -Funtion for generating the locationPaths.json based on paths saved from
 QLineEdits
