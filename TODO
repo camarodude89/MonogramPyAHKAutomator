@@ -1,2 +1,2 @@
--Funtion for generating the locationPaths.json based on paths saved from
-QLineEdits
+-Create main GUI
+-Launch AHK files from paths stored in locationPaths.json

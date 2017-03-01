@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QMainWindow, QVBoxLayout, QHBoxLayout, QLabel,
 QWidget, QPushButton, QLayout, QLineEdit, QFileDialog)
+from json_handler import JSONHandler
 import os
 
 class GUIInterface(QWidget):
@@ -207,6 +208,8 @@ class GUIInterface(QWidget):
     def setup_complete_UI(self):
 
         self.text_scrape()
+        JSONHandler.jsonify(self.defaultLocation,
+                            self.softwareList, self.softwarePathList)
         self.clear_layout()
 
         desc = QLabel()
@@ -243,8 +246,8 @@ class GUIInterface(QWidget):
         curScrInd = self.currentScreen[1]
 
         if curScrInd == 2:
-            self.default_location = self.locTxtBox.text()
-            print("Default location set to {}".format(self.default_location))
+            self.defaultLocation = self.locTxtBox.text()
+            print("Default location set to {}".format(self.defaultLocation))
         elif curScrInd == 3:
             self.softwarePathList[0] = self.fileLocTxtBox.text()
             print("{} is located in {}".format(self.softwareList[curScrInd - 3],
@@ -263,6 +266,9 @@ class GUIInterface(QWidget):
         filePath = QFileDialog.getOpenFileName(self, "Choose Install File",
                    "", "All Files (*);;Exe Files (*.exe)", options=options)
         self.fileLocTxtBox.setText(filePath[0])
+
+    def generate_JSON(self):
+        pass
 
     @staticmethod
     def font_size(curWidget, size=10):
