@@ -84,7 +84,7 @@ class GUIInterface(QWidget):
 
     def clear_layout(self, layout=None):
 
-        layout = self.layout() if layout == None else layout
+        layout = layout or self.layout()
         for i in reversed(range(layout.count())):
             layoutItem = layout.itemAt(i)
             if issubclass(layoutItem.__class__, QLayout):
