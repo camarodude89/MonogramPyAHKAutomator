@@ -70,7 +70,7 @@ class GUIInterface(QWidget):
         self.softwareList = ["Adobe Reader", "CutePDF",
         "ShoreTel Communicator"]
 
-        self.softwarePathList = [""] * 3
+        self.softwarePathList = [""] * len(self.softwareList)
 
         if os.path.isfile('locationPaths.json'):
             self.currentScreen = ["Automator", 0]
