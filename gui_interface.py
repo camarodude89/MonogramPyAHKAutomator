@@ -7,7 +7,7 @@ import os
 
 class GUIInterface(QWidget):
 
-    wizInitialTxt = """<div style=\"font-family:Segoe UI;\">
+    WIZ_INITIAL_TXT = """<div style=\"font-family:Segoe UI;\">
     <h1 align=\"center\">MonogramPyAHKAutomator Setup Wizard</h1>
     <span style=\"font-size:10pt;\" align=\"left\">
     <p>Before using the MonogramPyAHKAutomator
@@ -25,22 +25,22 @@ class GUIInterface(QWidget):
     <p>The currently supported software is Adobe Reader, CutePDF and ShoreTel
     Communicator.</p></span></div>"""
 
-    locChooseTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    LOC_CHOOSE_TXT = """<div align=\"left\" style=\"font-family:Segoe UI;\">
     <h3>MonogramPyAHKAutomator Setup Wizard</h3>
     <p style=\"font-size:10pt;\">Enter the physical location of the servers from
     which you will be installing software. (Ex: Memphis for MEM-APP,
     Martinsville for MMSMV-SVR1, etc.)</p>"""
 
-    locTxtBoxLblTxt = """<div align=\"left\" style=\"font-family:Segoe UI;
+    LOC_TXT_BOX_LBL_TXT = """<div align=\"left\" style=\"font-family:Segoe UI;
     font-size:10pt;\">Default Location:</div>"""
 
-    fileChooserTxt1 = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    FILE_CHOOSER_TXT_1 = """<div align=\"left\" style=\"font-family:Segoe UI;\">
     <h3>MonogramPyAHKAutomator Setup Wizard</h3>
     <p style=\"font-size:10pt;\">Enter the path to the setup file for <b>"""
 
-    fileChooserTxt2 = "</b>.</div>"
+    FILE_CHOOSER_TXT_2 = "</b>.</div>"
 
-    setupCompleteTxt = """<div align=\"left\" style=\"font-family:Segoe UI;\">
+    SETUP_COMPLETE_TXT = """<div align=\"left\" style=\"font-family:Segoe UI;\">
     <h3>MonogramPyAHKAutomator Setup Wizard</h3>
     <p style=\"font-size:10pt;\">Setup has been completed. Select the Finish
     button to exit.</p></div>"""
@@ -53,7 +53,7 @@ class GUIInterface(QWidget):
         self.setWindowTitle('MonogramPyAHKAutomator')
         self.setWindowIcon(QIcon('web.png'))
 
-        self.guiSwitcher = {
+        self.gui_switcher = {
             "Wizard": {
                 0: self.init_wizard_ui,
                 1: self.location_chooser_ui,
@@ -67,102 +67,103 @@ class GUIInterface(QWidget):
             }
         }
 
-        self.softwareList = ["Adobe Reader", "CutePDF",
+        self.software_list = ["Adobe Reader", "CutePDF",
         "ShoreTel Communicator"]
 
-        self.softwarePathList = [""] * len(self.softwareList)
+        self.software_path_list = [""] * len(self.software_list)
 
         if os.path.isfile('locationPaths.json'):
-            self.currentScreen = ["Automator", 0]
+            self.current_screen = ["Automator", 0]
             self.init_automator_ui()
         else:
-            self.currentScreen = ["Wizard", 0]
-            self.firstRun = True
-            self.wizLayout = QVBoxLayout()
-            self.wizBtnLayout = QHBoxLayout()
+            self.current_screen = ["Wizard", 0]
+            self.first_run = True
+            self.wiz_layout = QVBoxLayout()
+            self.wiz_btn_layout = QHBoxLayout()
             self.init_wizard_ui()
 
     def clear_layout(self, layout=None):
 
         layout = layout or self.layout()
         for i in reversed(range(layout.count())):
-            layoutItem = layout.itemAt(i)
-            if issubclass(layoutItem.__class__, QLayout):
-                self.clear_layout(layout=layoutItem)
+            layout_item = layout.itemAt(i)
+            if issubclass(layout_item.__class__, QLayout):
+                self.clear_layout(layout=layout_item)
                 #removes the sublayout from the main layout
-                self.layout().removeItem(layoutItem)
+                self.layout().removeItem(layout_item)
                 continue
-            widgetToRemove = layoutItem.widget()
-            layout.removeWidget(widgetToRemove)
+            widget_to_remove = layout_item.widget()
+            layout.removeWidget(widget_to_remove)
             #remove widget from the GUI
-            widgetToRemove.setParent(None)
+            widget_to_remove.setParent(None)
 
     def init_wizard_ui(self):
 
-        if not self.firstRun:
+        #Allows moving back to this screen without issue
+        if not self.first_run:
             self.clear_layout()
 
         intro = QLabel()
-        intro.setText(self.wizInitialTxt)
+        intro.setText(self.WIZ_INITIAL_TXT)
         intro.setAlignment(Qt.AlignTop)
         intro.setWordWrap(True)
 
-        self.wizLayout.addWidget(intro)
+        self.wiz_layout.addWidget(intro)
 
-        continueBtn = QPushButton("Continue", self)
-        GUIInterface.font_size(continueBtn)
-        continueBtn.clicked.connect(self.next_screen)
-        exitBtn = QPushButton("Exit", self)
-        GUIInterface.font_size(exitBtn)
-        exitBtn.clicked.connect(self.close)
+        continue_btn = QPushButton("Continue", self)
+        GUIInterface.font_size(continue_btn)
+        continue_btn.clicked.connect(self.next_screen)
+        exit_btn = QPushButton("Exit", self)
+        GUIInterface.font_size(exit_btn)
+        exit_btn.clicked.connect(self.close)
 
-        self.wizBtnLayout.addWidget(continueBtn)
-        self.wizBtnLayout.addWidget(exitBtn)
-        self.wizLayout.addLayout(self.wizBtnLayout)
+        self.wiz_btn_layout.addWidget(continue_btn)
+        self.wiz_btn_layout.addWidget(exit_btn)
+        self.wiz_layout.addLayout(self.wiz_btn_layout)
 
-        self.setLayout(self.wizLayout)
+        self.setLayout(self.wiz_layout)
 
         self.show()
 
-        self.firstRun = False
+        self.first_run = False
 
     def location_chooser_ui(self):
 
         self.clear_layout()
 
         desc = QLabel()
-        desc.setText(self.locChooseTxt)
+        desc.setText(self.LOC_CHOOSE_TXT)
         desc.setAlignment(Qt.AlignTop)
         desc.setWordWrap(True)
 
-        locTxtAndLblBoxLayout = QHBoxLayout()
+        loc_txt_and_lbl_box_layout = QHBoxLayout()
 
-        locTxtBoxLbl = QLabel()
-        locTxtBoxLbl.setText(self.locTxtBoxLblTxt)
-        locTxtBoxLbl.setAlignment(Qt.AlignCenter)
+        loc_txt_box_lbl = QLabel()
+        loc_txt_box_lbl.setText(self.LOC_TXT_BOX_LBL_TXT)
+        loc_txt_box_lbl.setAlignment(Qt.AlignCenter)
 
-        self.locTxtBox = QLineEdit()
-        GUIInterface.font_size(self.locTxtBox)
+        self.loc_txt_box = QLineEdit()
+        GUIInterface.font_size(self.loc_txt_box)
 
-        locTxtAndLblBoxLayout.addWidget(locTxtBoxLbl)
-        locTxtAndLblBoxLayout.addWidget(self.locTxtBox)
-        locTxtAndLblBoxLayout.setAlignment(Qt.AlignTop)
+        loc_txt_and_lbl_box_layout.addWidget(loc_txt_box_lbl)
+        loc_txt_and_lbl_box_layout.addWidget(self.loc_txt_box)
+        loc_txt_and_lbl_box_layout.setAlignment(Qt.AlignTop)
 
-        backBtn = QPushButton("< Back", self)
-        GUIInterface.font_size(backBtn)
-        backBtn.clicked.connect(self.prev_screen)
-        nextBtn = QPushButton("Next >", self)
-        GUIInterface.font_size(nextBtn)
-        nextBtn.clicked.connect(self.next_screen)
+        back_btn = QPushButton("< Back", self)
+        GUIInterface.font_size(back_btn)
+        back_btn.clicked.connect(self.prev_screen)
+        next_btn = QPushButton("Next >", self)
+        GUIInterface.font_size(next_btn)
+        next_btn.clicked.connect(self.next_screen)
 
-        self.wizBtnLayout.addWidget(backBtn)
-        self.wizBtnLayout.addWidget(nextBtn)
+        self.wiz_btn_layout.addWidget(back_btn)
+        self.wiz_btn_layout.addWidget(next_btn)
 
-        self.wizLayout.addWidget(desc)
-        self.wizLayout.addLayout(locTxtAndLblBoxLayout)
-        self.wizLayout.addLayout(self.wizBtnLayout)
+        self.wiz_layout.addWidget(desc)
+        self.wiz_layout.addLayout(loc_txt_and_lbl_box_layout)
+        self.wiz_layout.addLayout(self.wiz_btn_layout)
 
-        self.setLayout(self.wizLayout)
+        self.setLayout(self.wiz_layout)
 
         self.show()
 
@@ -172,64 +173,64 @@ class GUIInterface(QWidget):
         self.clear_layout()
 
         desc = QLabel()
-        desc.setText(self.fileChooserTxt1 +
-                    self.softwareList[self.currentScreen[1] - 2] +
-                    self.fileChooserTxt2)
+        desc.setText(self.FILE_CHOOSER_TXT_1 +
+                    self.software_list[self.current_screen[1] - 2] +
+                    self.FILE_CHOOSER_TXT_2)
         desc.setAlignment(Qt.AlignTop)
         desc.setWordWrap(True)
 
-        fileChooserHBoxLayout = QHBoxLayout()
+        file_chooser_hbox_layout = QHBoxLayout()
 
-        self.fileLocTxtBox = QLineEdit()
-        GUIInterface.font_size(self.fileLocTxtBox)
+        self.fileloc_txt_box = QLineEdit()
+        GUIInterface.font_size(self.fileloc_txt_box)
 
-        browseBtn = QPushButton("Browse...", self)
-        GUIInterface.font_size(browseBtn)
-        browseBtn.clicked.connect(self.choose_file)
+        browse_btn = QPushButton("Browse...", self)
+        GUIInterface.font_size(browse_btn)
+        browse_btn.clicked.connect(self.choose_file)
 
-        fileChooserHBoxLayout.addWidget(self.fileLocTxtBox)
-        fileChooserHBoxLayout.addWidget(browseBtn)
-        fileChooserHBoxLayout.setAlignment(Qt.AlignTop)
+        file_chooser_hbox_layout.addWidget(self.fileloc_txt_box)
+        file_chooser_hbox_layout.addWidget(browse_btn)
+        file_chooser_hbox_layout.setAlignment(Qt.AlignTop)
 
-        backBtn = QPushButton("< Back", self)
-        GUIInterface.font_size(backBtn)
-        backBtn.clicked.connect(self.prev_screen)
-        nextBtn = QPushButton("Next >", self)
-        GUIInterface.font_size(nextBtn)
-        nextBtn.clicked.connect(self.next_screen)
+        back_btn = QPushButton("< Back", self)
+        GUIInterface.font_size(back_btn)
+        back_btn.clicked.connect(self.prev_screen)
+        next_btn = QPushButton("Next >", self)
+        GUIInterface.font_size(next_btn)
+        next_btn.clicked.connect(self.next_screen)
 
-        self.wizBtnLayout.addWidget(backBtn)
-        self.wizBtnLayout.addWidget(nextBtn)
+        self.wiz_btn_layout.addWidget(back_btn)
+        self.wiz_btn_layout.addWidget(next_btn)
 
-        self.wizLayout.addWidget(desc)
-        self.wizLayout.addLayout(fileChooserHBoxLayout)
-        self.wizLayout.addLayout(self.wizBtnLayout)
+        self.wiz_layout.addWidget(desc)
+        self.wiz_layout.addLayout(file_chooser_hbox_layout)
+        self.wiz_layout.addLayout(self.wiz_btn_layout)
 
-        self.setLayout(self.wizLayout)
+        self.setLayout(self.wiz_layout)
 
         self.show()
 
     def setup_complete_ui(self):
 
         self.text_scrape()
-        JSONHandler.jsonify(self.defaultLocation,
-                            self.softwareList, self.softwarePathList)
+        JSONHandler.jsonify(self.default_location,
+                            self.software_list, self.software_path_list)
         self.clear_layout()
 
         desc = QLabel()
-        desc.setText(self.setupCompleteTxt)
+        desc.setText(self.SETUP_COMPLETE_TXT)
         desc.setAlignment(Qt.AlignTop)
         desc.setWordWrap(True)
 
-        finishBtn = QPushButton("Finish", self)
-        GUIInterface.font_size(finishBtn)
-        #finishBtn.setFixedWidth(100)
-        finishBtn.clicked.connect(self.close)
+        finish_btn = QPushButton("Finish", self)
+        GUIInterface.font_size(finish_btn)
+        #finish_btn.setFixedWidth(100)
+        finish_btn.clicked.connect(self.close)
 
-        self.wizLayout.addWidget(desc)
-        self.wizLayout.addWidget(finishBtn)
+        self.wiz_layout.addWidget(desc)
+        self.wiz_layout.addWidget(finish_btn)
 
-        self.setLayout(self.wizLayout)
+        self.setLayout(self.wiz_layout)
 
         self.show()
 
@@ -240,55 +241,55 @@ class GUIInterface(QWidget):
         stuff.setAlignment(Qt.AlignTop)
         stuff.setWordWrap(True)
 
-        self.autoLayout = QVBoxLayout()
+        self.auto_layout = QVBoxLayout()
 
-        self.autoLayout.addWidget(stuff)
+        self.auto_layout.addWidget(stuff)
 
-        self.setLayout(self.autoLayout)
+        self.setLayout(self.auto_layout)
 
         self.show()
 
     def next_screen(self):
 
-        self.currentScreen[1] += 1
-        func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
+        self.current_screen[1] += 1
+        func = self.gui_switcher.get(self.current_screen[0]).get(self.current_screen[1])
         return func()
 
     def prev_screen(self):
 
-        self.currentScreen[1] -= 1
-        func = self.guiSwitcher.get(self.currentScreen[0]).get(self.currentScreen[1])
+        self.current_screen[1] -= 1
+        func = self.gui_switcher.get(self.current_screen[0]).get(self.current_screen[1])
         return func()
 
     def text_scrape(self):
 
-        curScrInd = self.currentScreen[1]
+        cur_scr_ind = self.current_screen[1]
 
-        if curScrInd == 2:
-            self.defaultLocation = self.locTxtBox.text()
-            print("Default location set to {}".format(self.defaultLocation))
-        elif curScrInd == 3:
-            self.softwarePathList[0] = self.fileLocTxtBox.text()
-            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
-                 self.softwarePathList[curScrInd - 3]))
-        elif curScrInd == 4:
-            self.softwarePathList[1] = self.fileLocTxtBox.text()
-            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
-                 self.softwarePathList[curScrInd - 3]))
-        elif curScrInd == 5:
-            self.softwarePathList[2] = self.fileLocTxtBox.text()
-            print("{} is located in {}".format(self.softwareList[curScrInd - 3],
-                 self.softwarePathList[curScrInd - 3]))
+        if cur_scr_ind == 2:
+            self.default_location = self.loc_txt_box.text()
+            print("Default location set to {}".format(self.default_location))
+        elif cur_scr_ind == 3:
+            self.software_path_list[0] = self.fileloc_txt_box.text()
+            print("{} is located in {}".format(self.software_list[cur_scr_ind - 3],
+                 self.software_path_list[cur_scr_ind - 3]))
+        elif cur_scr_ind == 4:
+            self.software_path_list[1] = self.fileloc_txt_box.text()
+            print("{} is located in {}".format(self.software_list[cur_scr_ind - 3],
+                 self.software_path_list[cur_scr_ind - 3]))
+        elif cur_scr_ind == 5:
+            self.software_path_list[2] = self.fileloc_txt_box.text()
+            print("{} is located in {}".format(self.software_list[cur_scr_ind - 3],
+                 self.software_path_list[cur_scr_ind - 3]))
 
     def choose_file(self):
         options = QFileDialog.Options()
-        filePath = QFileDialog.getOpenFileName(self, "Choose Install File",
+        file_path = QFileDialog.getOpenFileName(self, "Choose Install File",
                    "", "All Files (*);;Exe Files (*.exe)", options=options)
-        self.fileLocTxtBox.setText(filePath[0])
+        self.fileloc_txt_box.setText(file_path[0])
 
     @staticmethod
-    def font_size(curWidget, size=10):
+    def font_size(cur_widget, size=10):
 
-        font = curWidget.font()
+        font = cur_widget.font()
         font.setPointSize(size)
-        curWidget.setFont(font)
+        cur_widget.setFont(font)

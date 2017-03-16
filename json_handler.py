@@ -3,9 +3,9 @@ import json
 class JSONHandler():
 
     @staticmethod
-    def jsonify(loc, wareList, warePathList):
+    def jsonify(loc, ware_list, ware_path_list):
 
-        dataDict = {loc:{k: v for (k,v) in zip(wareList, warePathList)}}
+        data_dict = {loc:{k: v for (k,v) in zip(ware_list, ware_path_list)}}
 
         with open('locationPaths.json', 'w') as fp:
-            fp.write(json.dumps(dataDict, sort_keys=True, indent=4))
+            fp.write(json.dumps(data_dict, sort_keys=True, indent=4))
