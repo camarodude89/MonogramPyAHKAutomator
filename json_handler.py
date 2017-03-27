@@ -3,14 +3,14 @@ import json
 class JSONHandler():
 
     @staticmethod
-    def jsonify(loc, ware_list, ware_path_list):
+    def jsonify(file_name, loc, ware_list, ware_path_list):
 
         data_dict = {loc:{k: v for (k,v) in zip(ware_list, ware_path_list)}}
 
-        with open('locationPaths.json', 'w') as fp:
+        with open(file_name, 'w') as fp:
             fp.write(json.dumps(data_dict, sort_keys=True, indent=4))
 
-    def dejsonify(fileName):
+    def dejsonify(file_name):
 
-        with open('locationPaths.json', 'r') as fp:
+        with open(file_name, 'r') as fp:
             return json.load(fp)
