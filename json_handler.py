@@ -9,3 +9,8 @@ class JSONHandler():
 
         with open('locationPaths.json', 'w') as fp:
             fp.write(json.dumps(data_dict, sort_keys=True, indent=4))
+
+    def dejsonify(fileName):
+
+        with open('locationPaths.json', 'r') as fp:
+            return json.load(fp)
