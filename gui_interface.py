@@ -285,6 +285,7 @@ class GUIInterface(QWidget):
                  self.software_path_list[cur_scr_ind - 3]))
 
     def choose_file(self):
+
         options = QFileDialog.Options()
         file_path = QFileDialog.getOpenFileName(self, "Choose Install File",
                    "", "All Files (*);;Exe Files (*.exe)", options=options)
