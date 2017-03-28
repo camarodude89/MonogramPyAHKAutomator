@@ -7,7 +7,7 @@ import os
 
 class GUIInterface(QWidget):
 
-    FILE_NAME = "locationPaths.json"
+    FILENAME = "locationPaths.json"
 
     WIZ_INITIAL_TXT = """<div style=\"font-family:Segoe UI;\">
     <h1 align=\"center\">MonogramPyAHKAutomator Setup Wizard</h1>
@@ -75,10 +75,11 @@ class GUIInterface(QWidget):
         self.software_path_list = [""] * len(self.software_list)
 
         if os.path.isfile('locationPaths.json'):
-            #place initialization of ActionScheduler here
+
             self.current_screen = ["Automator", 0]
             self.init_automator_ui()
         else:
+
             self.current_screen = ["Wizard", 0]
             self.first_run = True
             self.wiz_layout = QVBoxLayout()
@@ -216,7 +217,7 @@ class GUIInterface(QWidget):
     def setup_complete_ui(self):
 
         self.text_scrape()
-        JSONHandler.jsonify(self.FILE_NAME, self.default_location,
+        JSONHandler.jsonify(self.FILENAME, self.default_location,
                             self.software_list, self.software_path_list)
         self.clear_layout()
 

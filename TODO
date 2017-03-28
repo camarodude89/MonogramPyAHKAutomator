@@ -1,2 +1,3 @@
 -Create main GUI
+-Find ideal place to initialize ActionScheduler
 -Launch AHK files from paths stored in locationPaths.json
