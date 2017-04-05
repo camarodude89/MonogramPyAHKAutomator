@@ -14,4 +14,6 @@ Loop, Parse, filePath, "\"
 
 StringTrimRight, quotedFilePath, quotedFilePath, 1
 
-Run, com.bat %quotedFilePath%
+MsgBox % quotedFilePath
+
+Run, ComScripts\com.bat %quotedFilePath%

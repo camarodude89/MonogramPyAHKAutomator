@@ -5,7 +5,8 @@ SetTitleMatchMode, 2
 ;Initiate Adobe Reader installer by proxy of bat file
 ;This negates the need to bypass the Open File - Security Warning if the install
 ;is performed from the built-in admin account
-Run, AdobeReaderStart.bat
+SetWorkingDir .
+#Include ComScripts\com.ahk
 
 ;Bypasses Open File - Security Warning window if it appears
 ;IfWinExist, Open File - Security Warning
@@ -44,6 +45,3 @@ WinWaitClose, ahk_class MsiDialogCloseClass, successfully
 
 ;Displays message stating that installation was successful.
 MsgBox, Adobe Reader has been successfully and automatically installed.
-
-;Win+p will pause the script in case of emergency
-#p::Pause

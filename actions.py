@@ -1,13 +1,14 @@
 import subprocess
 
-class AHKAction(Action):
+class AHKAction():
 
     def __init__(self, ahk_filename, executable_path):
 
         #The file name is originally a dict key with a space
-        #The underscore is needed to match the ahk file name
-        self.ahk_filename = ahk_filename.replace(" ", "_")
-        self.ahk_filename += ".ahk"
+        #The space is removed to match the ahk file name
+        self.parent_folder = ahk_filename.replace(" ", "_")
+        self.ahk_filename = ahk_filename.replace(" ", "")
+        self.ahk_filename = self.parent_folder + "\\" + self.ahk_filename + "Automator.ahk"
         self.executable_path = executable_path
 
     def run(self):

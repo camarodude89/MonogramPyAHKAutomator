@@ -5,7 +5,8 @@ SetTitleMatchMode, 2
 ;Initiate ShoreTel Communicator installer by proxy of bat file
 ;This negates the need to bypass the Open File - Security Warning if the install
 ;is performed from the built-in admin account
-Run, ShoreTelCommunicatorStart.bat
+SetWorkingDir .
+#Include ComScripts\com.ahk
 
 ;Chooses initial Next button of the ShoreTel Communicator installer
 WinWait, ahk_class MsiDialogCloseClass, To continue

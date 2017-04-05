@@ -5,7 +5,8 @@ SetTitleMatchMode, 2
 ;Initiate CutePDF installer by proxy of bat file
 ;This negates the need to bypass the Open File - Security Warning if the install
 ;is performed from the built-in admin account
-Run, CutePDFStart.bat
+SetWorkingDir .
+#Include ComScripts\com.ahk
 
 ;Chooses initial Next button of the CutePDF installer
 WinWait, ahk_class TWizardForm, Welcome to the CutePDF
@@ -31,6 +32,3 @@ ControlSend, TNewButton2, {Space}, ahk_class TWizardForm
 WinWait, ahk_class #32770, PS2PDF
 TrayTip, Info, Selecting Yes button
 ControlSend, Button1, {Space}, ahk_class #32770
-
-;Win+p will pause the script in case of emergency
-#p::Pause

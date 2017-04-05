@@ -10,6 +10,7 @@ class JSONHandler():
         with open(filename, 'w') as fp:
             fp.write(json.dumps(data_dict, sort_keys=True, indent=4))
 
+    @staticmethod
     def dejsonify(filename):
 
         with open(filename, 'r') as fp:
