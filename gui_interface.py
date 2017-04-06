@@ -72,7 +72,6 @@ class GUIInterface(QWidget):
         self.software_list = ["Adobe Reader", "CutePDF",
         "ShoreTel Communicator"]
 
-        #self.software_path_list = [""] * len(self.software_list)
         self.software_path_list = list()
 
         if os.path.isfile('locationPaths.json'):
@@ -274,7 +273,9 @@ class GUIInterface(QWidget):
             self.default_location = self.loc_txt_box.text()
             print("Default location set to {}".format(self.default_location))
         elif cur_scr_ind > 2 and cur_scr_ind < 6:
-            self.software_path_list.append(self.fileloc_txt_box.text())
+            modded_path = self.fileloc_txt_box.text()
+            modded_path = "\"" + modded_path.replace("/", "\\") + "\""
+            self.software_path_list.append(modded_path)
             print("{} is located in {}".format(self.software_list[cur_scr_ind - 3],
                  self.software_path_list[cur_scr_ind - 3]))
 
