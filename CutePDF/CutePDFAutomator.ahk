@@ -28,7 +28,12 @@ WinWait, ahk_class TWizardForm, Ready to Install
 TrayTip, Info, Selecting Install button
 ControlSend, TNewButton2, {Space}, ahk_class TWizardForm
 
-;Chooses Yes button fo download of PS2PDF converter
+;Chooses Yes button for download of PS2PDF converter
 WinWait, ahk_class #32770, PS2PDF
 TrayTip, Info, Selecting Yes button
 ControlSend, Button1, {Space}, ahk_class #32770
+
+;If Chrome is the default browser, the Chrome window opened by the installer
+;is closed
+WinWait, Google Chrome
+WinClose, Google Chrome

@@ -16,3 +16,7 @@ class ActionScheduler():
             kwargs = {"AHK Filename":name, "Exe Path":path}
             self.action_list.append(ActionFactory.create_action(action_type="AHKAction",
                                **kwargs))
+    def run(self):
+
+        for action in self.action_list:
+            action.run()

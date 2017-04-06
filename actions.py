@@ -15,3 +15,11 @@ class AHKAction():
 
         subprocess.run(self.ahk_filename + " " + self.executable_path,
                        shell=True)
+
+class URLInstallAction(AHKAction):
+
+    DOWNLOAD_LOC = "\"C:\\Users\\Administrator\\Downloads\\"
+
+    def __init__(self, ahk_filename, executable_path, url):
+        super.__init__(ahk_filename, executable_path)
+        self.url = url

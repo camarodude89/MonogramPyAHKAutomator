@@ -42,6 +42,3 @@ WinWait, ahk_class MsiDialogCloseClass, successfully
 TrayTip, Info, Selecting Finish button
 ControlSend, Button1, {Space}, ahk_class MsiDialogCloseClass
 WinWaitClose, ahk_class MsiDialogCloseClass, successfully
-
-;Displays message stating that installation was successful.
-MsgBox, Adobe Reader has been successfully and automatically installed.
