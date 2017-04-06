@@ -1,4 +1,6 @@
 import subprocess
+import urllib.request
+import shutil
 
 class AHKAction():
 
@@ -18,8 +20,21 @@ class AHKAction():
 
 class URLInstallAction(AHKAction):
 
-    DOWNLOAD_LOC = "\"C:\\Users\\Administrator\\Downloads\\"
+    BAT_EXE_LOC = "\"C:\\Users\\Administrator\\Downloads\\"
+    DOWNLOAD_LOC = "C:/User/Administrator/Downloads/"
 
-    def __init__(self, ahk_filename, executable_path, url):
-        super.__init__(ahk_filename, executable_path)
+    def __init__(self, ahk_filename, executable_path=None, url):
+
+        self.down_file_name = ahk_filename.replace(" ", "") + ".exe"
         self.url = url
+        if executable_path == None:
+            executable_path = BAT_EXE_LOC + down_file_name + "\""
+        super.__init__(ahk_filename, executable_path)
+
+    def download_setup_file(self):
+        pass
+
+    def run(self):
+
+        download_setup_file()
+        super.run()
