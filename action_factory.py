@@ -1,4 +1,4 @@
-from actions import AHKAction
+from actions import AHKAction, URLInstallAction
 
 class ActionFactory():
 
