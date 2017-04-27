@@ -283,7 +283,7 @@ class GUIInterface(QWidget):
 
         options = QFileDialog.Options()
         file_path = QFileDialog.getOpenFileName(self, "Choose Install File",
-                   "", "All Files (*);;Exe Files (*.exe)", options=options)
+                                "", "All Files (*);;Exe Files (*.exe)", options=options)
         self.fileloc_txt_box.setText(file_path[0])
 
     @staticmethod
